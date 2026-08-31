@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Lanterne · Café francés nocturno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Libre+Franklin:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f4ede0;
+    --paper:#12151c;
+    --card:#1b1e28;
+    --green:#182232;
+    --green-light:#25334a;
+    --brass:#c89542;
+    --brass-light:#e2b767;
+    --bordeaux:#b84656;
+    --line: rgba(244,237,224,0.14);
+    --max: 1120px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Libre Franklin', sans-serif;
+    font-weight:400;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  section{scroll-margin-top:84px;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--brass);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--green);
+    border-bottom:4px solid var(--brass);
+  }
+  .nav-strip{
+    background: repeating-linear-gradient(90deg, var(--green-light) 0 28px, var(--green) 28px 56px);
+    height:6px;
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:12px;
+    color:var(--paper); text-decoration:none;
+  }
+  .brand svg{width:34px; height:34px; flex:none;}
+  .brand-text{
+    font-family:'Fraunces', serif; font-size:1.35rem; letter-spacing:0.01em;
+  }
+  .brand-text em{font-style:italic; color:var(--brass-light);}
+
+  .nav-links{
+    display:flex; gap:36px; list-style:none; margin:0; padding:0;
+  }
+  .nav-links a{
+    color:var(--ink); text-decoration:none; font-size:0.95rem;
+    padding-bottom:4px; border-bottom:1px solid transparent;
+    transition:border-color 0.2s ease, color 0.2s ease;
+  }
+  .nav-links a:hover{ border-color:var(--brass-light); color:var(--brass-light); }
+
+  .nav-toggle{
+    display:none; background:none; border:1px solid var(--brass-light); border-radius:3px;
+    width:40px; height:34px; cursor:pointer; padding:0;
+  }
+  .nav-toggle span{
+    display:block; width:20px; height:2px; margin:4px auto; background:var(--ink);
+  }
+
+  @media (max-width: 780px){
+    .nav-links{
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; gap:0; background:var(--green);
+      max-height:0; overflow:hidden; border-bottom:0 solid var(--brass);
+      transition:max-height 0.28s ease;
+    }
+    .nav-links.open{ max-height:260px; border-bottom-width:4px; }
+    .nav-links a{
+      display:block; padding:14px 32px; border-bottom:1px solid rgba(244,237,224,0.12);
+    }
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--green); color:var(--ink);
+    position:relative; overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid; grid-template-columns:1.1fr 0.9fr; align-items:center;
+    gap:48px; padding-top:76px; padding-bottom:64px;
+  }
+  .hero-eyebrow{
+    color:var(--brass-light); font-size:0.95rem; font-style:italic;
+    font-family:'Fraunces', serif;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 5vw, 4rem); line-height:1.05; margin-top:10px;
+  }
+  .hero p.lede{
+    max-width:46ch; margin-top:22px; font-size:1.08rem; color:rgba(244,237,224,0.86);
+  }
+  .hero-actions{ margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    display:inline-block; padding:13px 26px; border-radius:2px;
+    font-size:0.95rem; text-decoration:none; border:1px solid transparent;
+    transition:transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .btn-brass{ background:var(--brass); color:#12151c; font-weight:600; }
+  .btn-brass:hover{ background:var(--brass-light); transform:translateY(-1px); }
+  .btn-outline{ border-color:rgba(244,237,224,0.5); color:var(--ink); }
+  .btn-outline:hover{ border-color:var(--ink); background:rgba(244,237,224,0.08); }
+
+  .hero-strip{
+    border-top:1px solid rgba(244,237,224,0.18);
+    margin-top:56px; padding-top:22px;
+    display:flex; gap:40px; flex-wrap:wrap;
+    font-size:0.88rem; color:rgba(244,237,224,0.75);
+  }
+  .hero-strip strong{ color:var(--ink); font-family:'Fraunces', serif; font-weight:500; }
+
+  .hero-art{ position:relative; }
+  #steam-swirl{ transform-origin:center; }
+  @keyframes rise{
+    0%{ transform:translateY(0) scaleX(1); opacity:0.85; }
+    50%{ transform:translateY(-6px) scaleX(1.08); opacity:0.5; }
+    100%{ transform:translateY(-12px) scaleX(0.95); opacity:0; }
+  }
+  .steam-path{ animation:rise 3.2s ease-in-out infinite; }
+  .steam-path:nth-child(2){ animation-delay:0.7s; }
+  .steam-path:nth-child(3){ animation-delay:1.4s; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{
+    display:grid; grid-template-columns:auto 1fr; align-items:baseline; gap:20px;
+    margin-bottom:44px;
+  }
+  .section-num{
+    font-family:'Fraunces', serif; font-style:italic; color:var(--brass);
+    font-size:1.1rem; border-bottom:1px solid var(--line); padding-bottom:6px;
+  }
+  .section-head h2{ font-size:clamp(1.9rem, 3.4vw, 2.5rem); border-bottom:1px solid var(--line); padding-bottom:6px; }
+
+  /* ---------- NOSOTROS ---------- */
+  #nosotros{ padding:104px 0; }
+  .about-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
+  }
+  .about-copy p{ margin:0 0 18px; color:rgba(244,237,224,0.85); max-width:52ch; }
+  .about-copy p:last-child{ margin-bottom:0; }
+  .values{
+    margin-top:28px; padding-top:24px; border-top:1px solid var(--line);
+    display:grid; grid-template-columns:1fr 1fr; gap:22px 28px;
+  }
+  .value dt{ font-family:'Fraunces', serif; font-size:1.05rem; margin-bottom:4px; color:var(--brass-light); }
+  .value dd{ margin:0; font-size:0.92rem; color:rgba(244,237,224,0.65); }
+
+  .about-art{
+    background:var(--card); border:1px solid var(--line); border-radius:2px;
+    padding:28px;
+  }
+
+  /* ---------- MENU ---------- */
+  #menu{ background:var(--card); padding:104px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .menu-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:56px 64px;
+  }
+  .menu-cat h3{
+    font-size:1.3rem; color:var(--brass-light);
+    display:flex; align-items:center; gap:10px;
+  }
+  .menu-cat h3::after{
+    content:""; flex:1; height:1px; background:var(--line);
+  }
+  .menu-items{ list-style:none; margin:20px 0 0; padding:0; }
+  .menu-items li{
+    display:flex; align-items:baseline; gap:6px;
+    padding:11px 0; border-bottom:1px dotted var(--line);
+  }
+  .menu-items li:last-child{ border-bottom:none; }
+  .item-name{ font-weight:500; }
+  .item-desc{ display:block; font-size:0.85rem; color:rgba(244,237,224,0.6); font-weight:400; margin-top:2px; }
+  .item-leader{ flex:1; border-bottom:1px dotted var(--line); position:relative; top:-4px; }
+  .item-price{ font-family:'Fraunces', serif; font-weight:500; white-space:nowrap; color:var(--brass); }
+
+  .menu-note{
+    margin-top:48px; padding-top:24px; border-top:1px solid var(--line);
+    font-size:0.88rem; color:rgba(244,237,224,0.65); font-style:italic;
+  }
+
+  /* ---------- RECLAMOS ---------- */
+  #reclamos{ padding:104px 0; }
+  .contact-grid{
+    display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px;
+  }
+  .contact-intro p{ color:rgba(244,237,224,0.85); max-width:44ch; }
+  .contact-info{ margin-top:32px; padding-top:24px; border-top:1px solid var(--line); }
+  .contact-info dt{ font-family:'Fraunces', serif; font-size:0.95rem; color:var(--brass-light); }
+  .contact-info dd{ margin:2px 0 18px; color:rgba(244,237,224,0.75); }
+
+  form{
+    background:var(--green); color:var(--ink);
+    padding:40px; border-radius:2px; border:1px solid var(--line);
+  }
+  .field{ margin-bottom:20px; }
+  .field label{
+    display:block; font-size:0.85rem; margin-bottom:7px; color:rgba(244,237,224,0.85);
+  }
+  .field input, .field select, .field textarea{
+    width:100%; padding:11px 12px; font-family:'Libre Franklin', sans-serif; font-size:0.95rem;
+    background:rgba(18,21,28,0.6); border:1px solid rgba(244,237,224,0.2); color:var(--ink);
+    border-radius:2px;
+  }
+  .field textarea{ resize:vertical; min-height:110px; }
+  .field input::placeholder, .field textarea::placeholder{ color:rgba(244,237,224,0.4); }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .submit-btn{
+    background:var(--brass); color:#12151c; border:none; padding:13px 28px;
+    font-size:0.95rem; font-weight:600; border-radius:2px; cursor:pointer;
+    transition:background 0.2s ease, transform 0.15s ease;
+  }
+  .submit-btn:hover{ background:var(--brass-light); transform:translateY(-1px); }
+  .form-note{
+    margin-top:14px; font-size:0.85rem; color:var(--brass-light); min-height:1.2em;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:#0a0c10; color:rgba(244,237,224,0.72); padding:52px 0 28px;
+  }
+  .footer-grid{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px;
+    padding-bottom:28px; border-bottom:1px solid rgba(244,237,224,0.14);
+  }
+  .footer-brand{ font-family:'Fraunces', serif; color:var(--ink); font-size:1.2rem; }
+  .footer-cols{ display:flex; gap:56px; flex-wrap:wrap; }
+  .footer-col h4{
+    font-family:'Fraunces', serif; font-weight:500; color:var(--ink); font-size:0.95rem; margin-bottom:10px;
+  }
+  .footer-col p, .footer-col a{
+    display:block; font-size:0.88rem; color:rgba(244,237,224,0.65); text-decoration:none; margin-bottom:6px;
+  }
+  .footer-col a:hover{ color:var(--brass-light); }
+  .footer-bottom{
+    padding-top:20px; font-size:0.82rem; color:rgba(244,237,224,0.45);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  @media (max-width: 900px){
+    .hero .wrap{ grid-template-columns:1fr; padding-top:52px; }
+    .hero-art{ order:-1; max-width:280px; }
+    .about-grid, .menu-grid, .contact-grid{ grid-template-columns:1fr; }
+    .about-art{ order:-1; }
+    .field-row{ grid-template-columns:1fr; }
+    .values{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#inicio" class="brand">
+      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M12 20h20v10a10 10 0 0 1-10 10 10 10 0 0 1-10-10V20z" stroke="#fbf6ee" stroke-width="2"/>
+        <path d="M32 22h3a5 5 0 0 1 0 10h-3" stroke="#fbf6ee" stroke-width="2"/>
+        <path d="M17 14c0-2 2-2 2-4s-2-2-2-4" stroke="#e2b767" stroke-width="2" stroke-linecap="round"/>
+        <path d="M24 14c0-2 2-2 2-4s-2-2-2-4" stroke="#e2b767" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">La <em>Lanterne</em></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#reclamos">Reclamos y sugerencias</a></li>
+    </ul>
+  </nav>
+  <div class="nav-strip" aria-hidden="true"></div>
+</header>
+
+<main>
+
+  <!-- INICIO -->
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <div>
+        <p class="hero-eyebrow">Un rincón de París en el barrio</p>
+        <h1>Donde el café<br>se sirve con calma.</h1>
+        <p class="lede">La Lanterne es un café de estilo francés: cruasanes recién horneados, café de origen y mesas donde el tiempo se toma con calma. Encendemos el farol cada noche para acompañar tu tiempo con calma.</p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn btn-brass">Ver el menú</a>
+          <a href="#nosotros" class="btn btn-outline">Conocer la historia</a>
+        </div>
+        <div class="hero-strip">
+          <div><strong>Lun–Sáb</strong><br>18:00 – 02:00</div>
+          <div><strong>Domingo</strong><br>17:00 – 00:00</div>
+          <div><strong>Barra de café</strong><br>Origen único, tueste propio</div>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 380 420" role="img" aria-label="Ilustración de una taza de café humeante junto a una ventana de café parisino">
+          <rect x="30" y="40" width="320" height="260" rx="4" fill="#1b1e28" stroke="#e2b767" stroke-width="2"/>
+          <rect x="52" y="62" width="120" height="216" fill="#12151c" stroke="#e2b767" stroke-width="1.5"/>
+          <rect x="188" y="62" width="120" height="216" fill="#12151c" stroke="#e2b767" stroke-width="1.5"/>
+          <line x1="112" y1="62" x2="112" y2="278" stroke="#e2b767" stroke-width="1.5"/>
+          <line x1="248" y1="62" x2="248" y2="278" stroke="#e2b767" stroke-width="1.5"/>
+          <line x1="52" y1="170" x2="308" y2="170" stroke="#e2b767" stroke-width="1.5"/>
+          <path d="M30 40 L20 12 H360 L350 40Z" fill="#b84656"/>
+          <path d="M20 12 H360 L350 40 H30 Z" fill="none" stroke="#e2b767" stroke-width="1.5"/>
+          <g>
+            <rect x="30" y="12" width="33" height="28" fill="#b84656"/>
+            <rect x="96" y="12" width="33" height="28" fill="#1b1e28" opacity="0.92"/>
+            <rect x="162" y="12" width="33" height="28" fill="#b84656"/>
+            <rect x="228" y="12" width="33" height="28" fill="#1b1e28" opacity="0.92"/>
+            <rect x="294" y="12" width="33" height="28" fill="#b84656"/>
+          </g>
+          <ellipse cx="190" cy="360" rx="150" ry="8" fill="#000" opacity="0.4"/>
+          <path d="M150 330 h80 l-8 40 a8 8 0 0 1-8 7 h-48 a8 8 0 0 1-8-7 Z" fill="#fbf6ee"/>
+          <path d="M150 330 h80 v10 h-80 Z" fill="#e2b767"/>
+          <path d="M230 336 q22 2 20 20 q-2 16 -20 14" fill="none" stroke="#fbf6ee" stroke-width="6" stroke-linecap="round"/>
+          <g stroke="#fbf6ee" stroke-width="4" stroke-linecap="round" opacity="0.8">
+            <path class="steam-path" d="M172 318 q-8 -14 0 -26" fill="none"/>
+            <path class="steam-path" d="M190 318 q8 -14 0 -26" fill="none"/>
+            <path class="steam-path" d="M208 318 q-6 -14 2 -26" fill="none"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">Nosotros</span>
+        <h2>Una idea nacida en una mesa pequeña</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-copy">
+          <p>La Lanterne empezó como una mesa plegable y una cafetera prestada. Queríamos un lugar donde el café se sirviera sin prisa, con el mismo cuidado con el que se hornea un cruasán al caer la tarde: despacio, por capas, sin atajos.</p>
+          <p>Hoy seguimos horneando al caer la tarde, tostando nuestro propio café en lotes pequeños y recibiendo a quien entra como si fuera la primera vez que abrimos la puerta.</p>
+          <dl class="values">
+            <div class="value">
+              <dt>Producto de temporada</dt>
+              <dd>La carta cambia con lo que encontramos fresco cada semana.</dd>
+            </div>
+            <div class="value">
+              <dt>Tueste propio</dt>
+              <dd>Tostamos en pequeños lotes para cuidar cada perfil de sabor.</dd>
+            </div>
+            <div class="value">
+              <dt>Panadería diaria</dt>
+              <dd>Cruasanes y viennoiserie horneados al caer la tarde.</dd>
+            </div>
+            <div class="value">
+              <dt>Mesa compartida</dt>
+              <dd>Un espacio pensado para quedarse, leer o conversar sin reloj.</dd>
+            </div>
+          </dl>
+        </div>
+        <div class="about-art">
+          <svg viewBox="0 0 320 300" role="img" aria-label="Ilustración de utensils de café: molinillo, taza y cruasán">
+            <circle cx="160" cy="150" r="118" fill="#1b1e28"/>
+            <rect x="95" y="70" width="60" height="70" rx="4" fill="#b84656"/>
+            <rect x="108" y="55" width="34" height="18" rx="2" fill="#12151c"/>
+            <circle cx="125" cy="150" r="10" fill="#e2b767"/>
+            <path d="M175 190 h60 l-6 30 a7 7 0 0 1-7 6h-40 a7 7 0 0 1-7-6 Z" fill="#12151c"/>
+            <path d="M175 190 h60 v8 h-60 Z" fill="#c89542"/>
+            <path d="M235 195 q16 2 15 15 q-1 13 -15 12" fill="none" stroke="#e2b767" stroke-width="5" stroke-linecap="round"/>
+            <path d="M110 220 q30 -22 60 0 q-8 10 -30 10 q-22 0 -30 -10Z" fill="#c89542"/>
+            <path d="M112 221 q6 -8 14 -10" stroke="#b84656" stroke-width="2" fill="none" opacity="0.6"/>
+            <path d="M138 214 q6 -10 16 -12" stroke="#b84656" stroke-width="2" fill="none" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">Menú</span>
+        <h2>La carta de La Lanterne</h2>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-cat">
+          <h3>Cafés</h3>
+          <ul class="menu-items">
+            <li>
+              <span><span class="item-name">Café au lait</span><span class="item-desc">Espresso doble con leche vaporizada</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$3.20</span>
+            </li>
+            <li>
+              <span><span class="item-name">Noisette</span><span class="item-desc">Espresso con un toque de leche</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$2.60</span>
+            </li>
+            <li>
+              <span><span class="item-name">Chocolat chaud</span><span class="item-desc">Chocolate caliente con nata ligera</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$3.40</span>
+            </li>
+            <li>
+              <span><span class="item-name">Café glacé</span><span class="item-desc">Espresso frío, hielo y leche</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$3.30</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="menu-cat">
+          <h3>Pastelería</h3>
+          <ul class="menu-items">
+            <li>
+              <span><span class="item-name">Croissant au beurre</span><span class="item-desc">Hojaldrado, horneado cada tarde/noche</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$2.10</span>
+            </li>
+            <li>
+              <span><span class="item-name">Pain au chocolat</span><span class="item-desc">Con dos barras de chocolate belga</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$2.40</span>
+            </li>
+            <li>
+              <span><span class="item-name">Tarte aux fruits</span><span class="item-desc">Fruta de temporada sobre crema pastelera</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$3.80</span>
+            </li>
+            <li>
+              <span><span class="item-name">Madeleine</span><span class="item-desc">Con ralladura de limón, por unidad</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$1.50</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="menu-cat">
+          <h3>Brunch / Nocturno</h3>
+          <ul class="menu-items">
+            <li>
+              <span><span class="item-name">Tartine de saumon</span><span class="item-desc">Pan de campo, queso crema y eneldo</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$6.90</span>
+            </li>
+            <li>
+              <span><span class="item-name">Œufs cocotte</span><span class="item-desc">Huevos horneados con crema y hierbas</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$5.80</span>
+            </li>
+            <li>
+              <span><span class="item-name">Croque monsieur</span><span class="item-desc">Jamón, queso gruyère gratinado</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$6.20</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="menu-cat">
+          <h3>Para llevar</h3>
+          <ul class="menu-items">
+            <li>
+              <span><span class="item-name">Baguette del día</span><span class="item-desc">Horneada por la tarde</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$1.80</span>
+            </li>
+            <li>
+              <span><span class="item-name">Bolsa de granos 250g</span><span class="item-desc">Tueste de la casa, origen rotativo</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$7.50</span>
+            </li>
+            <li>
+              <span><span class="item-name">Caja de 6 macarons</span><span class="item-desc">Sabores según disponibilidad</span></span>
+              <span class="item-leader"></span>
+              <span class="item-price">$8.00</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="menu-note">Precios en dólares. La carta puede variar según disponibilidad de temporada.</p>
+    </div>
+  </section>
+
+  <!-- RECLAMOS Y SUGERENCIAS -->
+  <section id="reclamos">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-num">Reclamos y sugerencias</span>
+        <h2>Tu opinión hace mejor la próxima taza</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-intro">
+          <p>Si algo no estuvo a la altura, o si tienes una idea para la carta, escríbenos. Leemos cada mensaje y respondemos en un plazo de 48 horas hábiles.</p>
+          <dl class="contact-info">
+            <dt>Dirección</dt>
+            <dd>Av. de los Cafés N24-15 y República, Quito</dd>
+            <dt>Teléfono</dt>
+            <dd>+593 99 123 4567</dd>
+            <dt>Correo</dt>
+            <dd>hola@lalanterne.ec</dd>
+          </dl>
+        </div>
+        <form id="contactForm" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="field">
+              <label for="correo">Correo</label>
+              <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="tipo">Tipo de mensaje</label>
+            <select id="tipo" name="tipo">
+              <option value="sugerencia">Sugerencia</option>
+              <option value="reclamo">Reclamo</option>
+              <option value="felicitacion">Felicitación</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos qué pasó o qué te gustaría ver en La Lanterne" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Enviar mensaje</button>
+          <p class="form-note" id="formNote" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">La Lanterne</div>
+        <p style="margin-top:8px; max-width:32ch;">Café de estilo francés en el corazón de Quito.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Visítanos</h4>
+          <p>Av. de los Cafés N24-15</p>
+          <p>Quito, Ecuador</p>
+        </div>
+        <div class="footer-col">
+          <h4>Horario</h4>
+          <p>Lun–Sáb · 18:00–02:00</p>
+          <p>Domingo · 17:00–00:00</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navegación</h4>
+          <a href="#inicio">Inicio</a>
+          <a href="#nosotros">Nosotros</a>
+          <a href="#menu">Menú</a>
+          <a href="#reclamos">Reclamos y sugerencias</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 La Lanterne. Todos los derechos reservados.</span>
+      <span>Hecho con cariño, taza a taza.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Contact form (demo submission, no backend)
+  const form = document.getElementById('contactForm');
+  const formNote = document.getElementById('formNote');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    formNote.textContent = 'Gracias, tu mensaje fue enviado. Te responderemos pronto.';
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
